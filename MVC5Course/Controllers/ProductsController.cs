@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -140,7 +141,25 @@ namespace MVC5Course.Controllers
                 prod.Active = true;
 
                 db.Product.Add(prod);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    //throw ex;
+                    var allErrors = new List<string>();
+
+                    foreach (DbEntityValidationResult re in ex.EntityValidationErrors)
+                    {
+                        foreach (DbValidationError err in re.ValidationErrors)
+                        {
+                            allErrors.Add(err.ErrorMessage);
+                        }
+                    }
+
+                    ViewBag.Errors = allErrors;
+                }
 
                 return RedirectToAction("Index");
             }
