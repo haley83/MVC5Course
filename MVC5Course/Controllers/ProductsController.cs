@@ -19,7 +19,27 @@ namespace MVC5Course.Controllers
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Product.ToList());
+            //return View(db.Product.ToList());
+
+            var data = db.Product.AsQueryable();
+            data = data.Where(p => p.ProductName.Contains("100"));
+            data = data.OrderByDescending(p => p.ProductName);
+
+            //var data1 = from p in db.Product
+            //            where p.ProductName.Contains("100")
+            //            orderby p.ProductName
+            //            select p;
+            
+            //var data2 = from p in db.Product
+            //            where p.ProductName.Contains("100")
+            //            orderby p.ProductName
+            //            select new NewProductVM
+            //            {
+            //                ProductName = p.ProductName,
+            //                Price = p.Price
+            //            };
+
+            return View(data);
         }
 
         // GET: Products/Details/5
@@ -30,6 +50,8 @@ namespace MVC5Course.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Product.Find(id);
+            //Product product = db.Product.Where(p => p.ProductId == id && p.Active == true).FirstOrDefault();
+            //Product product = db.Product.FirstOrDefault(p => p.ProductId == id && p.Active == true);
             if (product == null)
             {
                 return HttpNotFound();
