@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using Omu.ValueInjecter;
 
 namespace MVC5Course.Controllers
 {
@@ -134,9 +135,13 @@ namespace MVC5Course.Controllers
         public ActionResult NewProduct(NewProductVM product)
         {
             if (ModelState.IsValid) {
-                var prod = new Product();
-                prod.ProductName = product.ProductName;
-                prod.Price = product.Price;
+
+                //var prod = new Product();
+                //prod.ProductName = product.ProductName;
+                //prod.Price = product.Price;
+
+                var prod = Mapper.Map<Product>(product); 
+
                 prod.Stock = 1;
                 prod.Active = true;
 
@@ -159,6 +164,8 @@ namespace MVC5Course.Controllers
                     }
 
                     ViewBag.Errors = allErrors;
+
+                    return Content(String.Join("<br>", allErrors.ToArray()));
                 }
 
                 return RedirectToAction("Index");
