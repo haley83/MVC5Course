@@ -15,6 +15,7 @@ namespace MVC5Course.Models
         public int ProductId { get; set; }
         [Required]
         [StringLength(80, ErrorMessage="欄位長度不得大於 80 個字元")]
+        [限制欄位值必須輸入兩個數字1]
         public string ProductName { get; set; }
         [Required]
         [Range(1.0, 99.9)]
