@@ -22,7 +22,8 @@ namespace MVC5Course.Controllers
             //return View(db.Product.ToList());
 
             var data = db.Product.AsQueryable();
-            data = data.Where(p => p.ProductName.Contains("100"));
+            //data = data.Where(p => p.ProductName.Contains("100"));
+            data = data.Where(p => p.ProductId < 10);
             data = data.OrderByDescending(p => p.ProductName);
 
             //var data1 = from p in db.Product
@@ -136,6 +137,7 @@ namespace MVC5Course.Controllers
             Product product = db.Product.Find(id);
             db.Product.Remove(product);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -194,5 +196,43 @@ namespace MVC5Course.Controllers
             }
             return View(product);
         }
+
+        public ActionResult BatchUpdate()
+        {
+            //較有效能寫法
+            //db.Database.ExecuteSqlCommand("update product set price=5 where productid < @p0", 10);
+            //效能較差寫法
+            var data = db.Product.AsQueryable();
+            data = data.Where(p => p.ProductId<10);
+            foreach (var item in data)
+            {
+                item.Price = 5;
+            }
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                //throw ex;
+                var allErrors = new List<string>();
+
+                foreach (DbEntityValidationResult re in ex.EntityValidationErrors)
+                {
+                    foreach (DbValidationError err in re.ValidationErrors)
+                    {
+                        allErrors.Add(err.ErrorMessage);
+                    }
+                }
+
+                ViewBag.Errors = allErrors;
+
+                return Content(String.Join("<br>", allErrors.ToArray()));
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
