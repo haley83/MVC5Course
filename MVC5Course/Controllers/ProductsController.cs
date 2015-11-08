@@ -135,6 +135,18 @@ namespace MVC5Course.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Product.Find(id);
+
+            // 方法一
+            //var orderLines = product.OrderLine.Where(p => p.ProductId == product.ProductId);
+            // 方法二
+            //var orderLines = product.OrderLine.ToList();
+            //foreach (var item in orderLines)
+            //{
+            //    db.OrderLine.Remove(item);
+            //}
+            // 方法三
+            db.OrderLine.RemoveRange(product.OrderLine);
+
             db.Product.Remove(product);
             db.SaveChanges();
 
