@@ -11,7 +11,6 @@ namespace MVC5Course.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Product
     {
@@ -21,18 +20,10 @@ namespace MVC5Course.Models
             this.OrderLine = new HashSet<OrderLine>();
         }
     
-        [Required]
         public int ProductId { get; set; }
-        [Required]
-        [StringLength(50)]
         public string ProductName { get; set; }
-        [Required]
-        [Range(1.0,99.9)]
-        [DisplayFormat(DataFormatString="{0:C1}")]
         public Nullable<decimal> Price { get; set; }
-        [Required]
         public Nullable<bool> Active { get; set; }
-        [Required]
         public Nullable<decimal> Stock { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
