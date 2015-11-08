@@ -17,13 +17,15 @@ namespace MVC5Course.Controllers
         private FabricsEntities db = new FabricsEntities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             //return View(db.Product.ToList());
 
             var data = db.Product.AsQueryable();
             //data = data.Where(p => p.ProductName.Contains("100"));
-            data = data.Where(p => p.ProductId < 10);
+            //data = data.Where(p => p.ProductId < 10);
+            if (!string.IsNullOrEmpty(search))
+                data = data.Where(p => p.ProductName.Contains(search));
             data = data.OrderByDescending(p => p.ProductName);
 
             //var data1 = from p in db.Product
