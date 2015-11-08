@@ -133,6 +133,15 @@ namespace MVC5Course.Controllers
         public ActionResult NewProduct(NewProductVM product)
         {
             if (ModelState.IsValid) {
+                var prod = new Product();
+                prod.ProductName = product.ProductName;
+                prod.Price = product.Price;
+                prod.Stock = 1;
+                prod.Active = true;
+
+                db.Product.Add(prod);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(product);
