@@ -14,7 +14,7 @@ namespace MVC5Course.Controllers
 {
     public class ProductsController : Controller
     {
-        private FabricsEntities db = new FabricsEntities();
+        //private FabricsEntities db = new FabricsEntities();
         private ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
@@ -80,8 +80,10 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Product.Add(product);
-                db.SaveChanges();
+                //db.Product.Add(product);
+                repo.Add(product);
+                //db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -95,7 +97,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = repo.GetById(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -112,8 +114,10 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(product).State = EntityState.Modified;
+                ((FabricsEntities)repo.UnitOfWork.Context).Entry(product).State = EntityState.Modified;
+                //db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -126,7 +130,7 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            Product product = repo.GetById(id);
             if (product == null)
             {
                 return HttpNotFound();
@@ -139,7 +143,8 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Product.Find(id);
+            //Product product = db.Product.Find(id);
+            Product product = repo.GetById(id);
 
             // 方法一
             //var orderLines = product.OrderLine.Where(p => p.ProductId == product.ProductId);
@@ -150,10 +155,12 @@ namespace MVC5Course.Controllers
             //    db.OrderLine.Remove(item);
             //}
             // 方法三
-            db.OrderLine.RemoveRange(product.OrderLine);
+            //db.OrderLine.RemoveRange(product.OrderLine);
 
-            db.Product.Remove(product);
-            db.SaveChanges();
+            //db.Product.Remove(product);
+            repo.Delete(product);
+            //db.SaveChanges();
+            repo.UnitOfWork.Commit();
 
             return RedirectToAction("Index");
         }
@@ -162,7 +169,8 @@ namespace MVC5Course.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -186,10 +194,12 @@ namespace MVC5Course.Controllers
                 prod.Stock = 1;
                 prod.Active = true;
 
-                db.Product.Add(prod);
+                //db.Product.Add(prod);
+                repo.Add(prod);
                 try
                 {
-                    db.SaveChanges();
+                    //db.SaveChanges();
+                    repo.UnitOfWork.Commit();
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -229,7 +239,8 @@ namespace MVC5Course.Controllers
 
             try
             {
-                db.SaveChanges();
+                //db.SaveChanges();
+                repo.UnitOfWork.Commit();
             }
             catch (DbEntityValidationException ex)
             {

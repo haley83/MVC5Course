@@ -39,6 +39,13 @@ namespace MVC5Course.Models
             return this.All().Where(p => p.ProductId < 10);
             //throw new NotImplementedException();
         }
+
+        public override void Delete(Product entity)
+        {
+            var db = ((FabricsEntities)base.UnitOfWork.Context);
+            db.OrderLine.RemoveRange(entity.OrderLine);
+            base.Delete(entity);
+        }
     }
 
 	public  interface IProductRepository : IRepository<Product>

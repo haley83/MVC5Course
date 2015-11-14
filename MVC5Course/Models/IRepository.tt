@@ -81,7 +81,7 @@ namespace <#= code.VsNamespaceSuggestion() #>
 		string ConnectionString { get; set; }
 	}
 }<#	fileManager.StartNewFile("RepositoryIQueryableExtensions.cs");
-#>using System.Data.Objects;
+#>using System.Data.Entity.Core.Objects;
 using System.Linq;
 
 namespace <#= code.VsNamespaceSuggestion() #>
@@ -139,7 +139,7 @@ namespace <#= code.VsNamespaceSuggestion() #>
 			ObjectSet.Add(entity);
 		}
 
-		public void Delete(T entity)
+		public virtual void Delete(T entity)
 		{
 			ObjectSet.Remove(entity);
 		}
