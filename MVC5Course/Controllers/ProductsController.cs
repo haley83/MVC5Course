@@ -15,17 +15,19 @@ namespace MVC5Course.Controllers
     public class ProductsController : Controller
     {
         private FabricsEntities db = new FabricsEntities();
+        private ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
         public ActionResult Index(string search)
         {
             //return View(db.Product.ToList());
 
-            var data = db.Product.AsQueryable();
+            //var data = db.Product.AsQueryable();
+            var data = repo.GetBySearchKey(search);
             //data = data.Where(p => p.ProductName.Contains("100"));
             //data = data.Where(p => p.ProductId < 10);
-            if (!string.IsNullOrEmpty(search))
-                data = data.Where(p => p.ProductName.Contains(search));
+            //if (!string.IsNullOrEmpty(search))
+            //    data = data.Where(p => p.ProductName.Contains(search));
             data = data.OrderByDescending(p => p.ProductName);
 
             //var data1 = from p in db.Product
@@ -52,7 +54,8 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            //Product product = db.Product.Find(id);
+            Product product = repo.GetById(id);
             //Product product = db.Product.Where(p => p.ProductId == id && p.Active == true).FirstOrDefault();
             //Product product = db.Product.FirstOrDefault(p => p.ProductId == id && p.Active == true);
             if (product == null)
@@ -216,8 +219,9 @@ namespace MVC5Course.Controllers
             //較有效能寫法
             //db.Database.ExecuteSqlCommand("update product set price=5 where productid < @p0", 10);
             //效能較差寫法
-            var data = db.Product.AsQueryable();
-            data = data.Where(p => p.ProductId<10);
+            //var data = db.Product.AsQueryable();
+            //data = data.Where(p => p.ProductId<10);
+            var data = repo.Get取得前面10筆範例資料();
             foreach (var item in data)
             {
                 item.Price = 5;
