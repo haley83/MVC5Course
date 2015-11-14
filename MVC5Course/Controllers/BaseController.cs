@@ -15,5 +15,13 @@ namespace MVC5Course.Controllers
         {
             return View();
         }
+
+        protected override void HandleUnknownAction(string actionName)
+        {
+            if (Request.IsLocal)
+                this.Redirect("/?unknown-action=" + actionName).ExecuteResult(this.ControllerContext);
+            else
+                base.HandleUnknownAction(actionName);
+        }
     }
 }
