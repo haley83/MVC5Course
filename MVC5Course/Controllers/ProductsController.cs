@@ -100,7 +100,8 @@ namespace MVC5Course.Controllers
             Product product = repo.GetById(id);
             if (product == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
             }
             return View(product);
         }
