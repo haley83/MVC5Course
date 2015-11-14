@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
-    public class ARController : Controller
+    public class ARController : BaseController
     {
         // GET: AR
         public ActionResult Index()
@@ -49,6 +50,20 @@ namespace MVC5Course.Controllers
             string fileName = Server.MapPath(@"~/Content/octocat_setup.jpg");
             string contentType = "image/jpeg";
             return File(fileName, contentType, Path.GetFileName(fileName));
+        }
+
+        public ActionResult JsonIndex()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult JsonData()
+        {
+            var db = new FabricsEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            var data = db.Product.Take(5).ToList();
+            return Json(data);
         }
     }
 }
