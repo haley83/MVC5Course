@@ -6,13 +6,25 @@ namespace MVC5Course.Models
 {   
 	public  class ProductRepository : EFRepository<Product>, IProductRepository
 	{
+        public override IQueryable<Product> All()
+        {
+            return base.All().Where(p => p.Active == true);
+        }
+
+        public IQueryable<Product> All(bool IsGetAll)
+        {
+            if (IsGetAll)
+                return base.All();
+            else
+                return this.All();
+        } 
 
         public IQueryable<Product> GetBySearchKey(string search)
         {
             if (!string.IsNullOrEmpty(search))
-                return this.All().Where(p => p.ProductName.Contains(search));
+                return this.All(true).Where(p => p.ProductName.Contains(search));
             else
-                return null;
+                return this.All();
             //throw new NotImplementedException();
         }
 
