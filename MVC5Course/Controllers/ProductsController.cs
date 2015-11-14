@@ -12,10 +12,10 @@ using Omu.ValueInjecter;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         //private FabricsEntities db = new FabricsEntities();
-        private ProductRepository repo = RepositoryHelper.GetProductRepository();
+        //private ProductRepository repo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
         public ActionResult Index(string search)

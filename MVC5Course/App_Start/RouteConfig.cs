@@ -13,21 +13,21 @@ namespace MVC5Course
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Products",
-                url: "Products/{action}/{id}",
-                defaults: new { controller = "Products"
-                                , action = "Index"
-                                , id = UrlParameter.Optional },
-                constraints: new { controller = "Products"
-                                   ,id = @"\d*" }
-            );
+            //routes.MapRoute(
+            //    name: "Products",
+            //    url: "Products/{action}/{id}",
+            //    defaults: new { controller = "Products"
+            //                    , action = "Index"
+            //                    , id = UrlParameter.Optional },
+            //    constraints: new { controller = "Products"
+            //                       ,id = @"\d*" }
+            //);
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-                ,constraints: new { controller = "(?!^Products$).*" }
+                //,constraints: new { controller = "(?!^Products$).*" }
             );
         }
     }
