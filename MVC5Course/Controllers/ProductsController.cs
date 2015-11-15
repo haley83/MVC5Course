@@ -48,9 +48,10 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int[] ProductID, IList<Product> data)
+        public ActionResult Index(int[] ProductID, FormCollection form)
         {
-            if (ModelState.IsValid)
+            IList<Product> data = new List<Product>();
+            if (TryUpdateModel<IList<Product>>(data, "data"))
             {
                 foreach (var item in data)
                 {
