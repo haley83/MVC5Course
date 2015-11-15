@@ -146,7 +146,7 @@ namespace MVC5Course.Controllers
             if (TryUpdateModel<Product>(product,includeProperties))
             {
                 //db.Entry(product).State = EntityState.Modified;
-                ((FabricsEntities)repo.UnitOfWork.Context).Entry(product).State = EntityState.Modified;
+                //((FabricsEntities)repo.UnitOfWork.Context).Entry(product).State = EntityState.Modified;
                 //db.SaveChanges();
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
