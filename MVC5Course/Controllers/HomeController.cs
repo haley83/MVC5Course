@@ -33,6 +33,10 @@ namespace MVC5Course.Controllers
         public ActionResult Test()
         {
             Debug.WriteLine("Test");
+
+            //if(Request.IsAjaxRequest())
+            throw new Exception("BAD");
+
             return View();
         }
     }

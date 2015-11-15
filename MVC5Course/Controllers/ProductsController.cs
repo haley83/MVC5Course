@@ -48,11 +48,13 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
         public ActionResult Index(int[] ProductID, FormCollection form)
         {
             IList<Product> data = new List<Product>();
-            if (TryUpdateModel<IList<Product>>(data, "data"))
-            {
+            TryUpdateModel<IList<Product>>(data, "data");
+            //if (TryUpdateModel<IList<Product>>(data, "data"))
+            //{
                 foreach (var item in data)
                 {
                     var dbItem = repo.GetById(item.ProductId);
@@ -68,9 +70,9 @@ namespace MVC5Course.Controllers
                 repo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
-            }
-            else
-                return View();
+            //}
+            //else
+            //    return View();
         }
 
         // GET: Products/Details/5
