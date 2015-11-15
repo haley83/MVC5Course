@@ -20,53 +20,63 @@
 
 <br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@using (Html.BeginForm())
+{
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-                @*@string.Format("{0:C0}", item.Price)*@
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Active)*@
-                @(item.Active.Value ? "啟用" : "停用")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
-            </td>
+            <th>
+                v
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th></th>
         </tr>
-    }
-    <tr>
-        <td></td>
-        <td><a href="@Url.Action("BatchUpdate")" class="btn btn-default">更新id小於10的資料改為5元</a></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="ProductID" value="@item.ProductId" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                    @*@string.Format("{0:C0}", item.Price)*@
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Active)*@
+                    @(item.Active.Value ? "啟用" : "停用")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                </td>
+            </tr>
+        }
+        <tr>
+            <td><button type="submit">刪除</button></td>
+            <td></td>
+            <td><a href="@Url.Action("BatchUpdate")" class="btn btn-default">更新id小於10的資料改為5元</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </table>
+}

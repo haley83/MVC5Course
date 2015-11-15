@@ -37,18 +37,18 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormBinding(Product prod)
+        public ActionResult FormBinding([Bind(Exclude="Active")] Product prod)
         {
             return Json(prod);
         }
 
-        public ActionResult MultiBiding()
+        public ActionResult MultiBinding()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult MultiBiding(Product data1, Product data2)
+        public ActionResult MultiBinding(Product data1, Product data2)
         {
             return Json(data1);
         }
