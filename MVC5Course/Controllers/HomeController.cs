@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC5Course.ActionFilter;
 
 namespace MVC5Course.Controllers
 {
@@ -27,8 +29,10 @@ namespace MVC5Course.Controllers
             return View();
         }
 
+        [MyFilter]
         public ActionResult Test()
         {
+            Debug.WriteLine("Test");
             return View();
         }
     }
