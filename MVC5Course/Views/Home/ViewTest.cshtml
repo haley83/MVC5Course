@@ -1,0 +1,19 @@
+﻿@model int[]
+@{
+    Layout = "";
+}
+
+@foreach (var i in Model)
+{
+@i
+}
+
+@foreach (var i in Model)
+{@i<text> </text>}
+
+<ul>
+@foreach (var i in Model)
+{
+  <li>@i</li>
+}
+</ul>
