@@ -30,5 +30,28 @@ namespace MVC5Course.Controllers
             ViewData.Model = data;
             return View();
         }
+
+        public ActionResult FormBinding()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult FormBinding(Product prod)
+        {
+            return Json(prod);
+        }
+
+        public ActionResult MultiBiding()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MultiBiding(Product data1, Product data2)
+        {
+            return Json(data1);
+        }
+
     }
 }
