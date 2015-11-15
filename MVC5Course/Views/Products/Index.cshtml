@@ -19,13 +19,13 @@
 </p>
 
 <br />
-
+@{ var data = Model.ToArray();}
 @using (Html.BeginForm())
 {
     <table class="table">
         <tr>
             <th>
-                v
+                批次刪除
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProductName)
@@ -41,36 +41,38 @@
             </th>
             <th></th>
         </tr>
-
-        @foreach (var item in Model)
+        
+        @for (int i = 0; i < data.Length; i++)
         {
             <tr>
                 <td>
-                    <input type="checkbox" name="ProductID" value="@item.ProductId" />
+                    <input type="checkbox" name="ProductID" value="@data[i].ProductId" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
+                    @Html.HiddenFor(modelItem => data[i].ProductId)
+                    @Html.EditorFor(modelItem => data[i].ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @Html.EditorFor(modelItem => data[i].Price)
                     @*@string.Format("{0:C0}", item.Price)*@
                 </td>
                 <td>
                     @*@Html.DisplayFor(modelItem => item.Active)*@
-                    @(item.Active.Value ? "啟用" : "停用")
+                    @*@(item.Active.Value ? "啟用" : "停用")*@
+                    @Html.EditorFor(modelItem => data[i].Active)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
+                    @Html.EditorFor(modelItem => data[i].Stock)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                    @Html.ActionLink("Edit", "Edit", new { id = data[i].ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id = data[i].ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = data[i].ProductId })
                 </td>
             </tr>
         }
         <tr>
-            <td><button type="submit">刪除</button></td>
+            <td><button type="submit">批次作業</button></td>
             <td></td>
             <td><a href="@Url.Action("BatchUpdate")" class="btn btn-default">更新id小於10的資料改為5元</a></td>
             <td></td>

@@ -24,7 +24,7 @@ namespace MVC5Course.Models
             if (!string.IsNullOrEmpty(search))
                 return this.All(true).Where(p => p.ProductName.Contains(search));
             else
-                return this.All();
+                return this.Get取得前面n筆範例資料(10);
             //throw new NotImplementedException();
         }
 
@@ -34,9 +34,10 @@ namespace MVC5Course.Models
             //throw new NotImplementedException();
         }
 
-        public IQueryable<Product> Get取得前面10筆範例資料()
+        public IQueryable<Product> Get取得前面n筆範例資料(int n)
         {
-            return this.All().Where(p => p.ProductId < 10);
+            //return this.All().Where(p => p.ProductId < 10);
+            return this.All().OrderBy(p => p.ProductId).Take(n);
             //throw new NotImplementedException();
         }
 

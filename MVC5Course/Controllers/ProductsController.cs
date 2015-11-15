@@ -48,15 +48,28 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int[] ProductID)
+        public ActionResult Index(int[] ProductID, IList<Product> data)
         {
-            foreach (var id in ProductID)
+            if (ModelState.IsValid)
             {
-                repo.Delete(repo.GetById(id));
-            }
-            repo.UnitOfWork.Commit();
+                foreach (var item in data)
+                {
+                    var dbItem = repo.GetById(item.ProductId);
+                    dbItem.InjectFrom(item);
+                }
+                if (ProductID != null)
+                {
+                    foreach (var id in ProductID)
+                    {
+                        repo.Delete(repo.GetById(id));
+                    }
+                }
+                repo.UnitOfWork.Commit();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            else
+                return View();
         }
 
         // GET: Products/Details/5
@@ -244,7 +257,7 @@ namespace MVC5Course.Controllers
             //效能較差寫法
             //var data = db.Product.AsQueryable();
             //data = data.Where(p => p.ProductId<10);
-            var data = repo.Get取得前面10筆範例資料();
+            var data = repo.Get取得前面n筆範例資料(10);
             foreach (var item in data)
             {
                 item.Price = 5;
