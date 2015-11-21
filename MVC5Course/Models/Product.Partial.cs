@@ -22,6 +22,7 @@ namespace MVC5Course.Models
         [DisplayFormat(DataFormatString = "{0:C1}")]
         public Nullable<decimal> Price { get; set; }
         [Required]
+        [UIHint("Boolean.啟用停用")]
         public Nullable<bool> Active { get; set; }
         [Required]
         public Nullable<decimal> Stock { get; set; }

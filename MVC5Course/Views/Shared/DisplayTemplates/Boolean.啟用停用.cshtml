@@ -1,0 +1,20 @@
+﻿@model bool?
+
+@{
+    if (Model.HasValue)
+    {
+        if (Model.Value == true)
+	    {
+		        @:啟用
+	    }else
+	    {
+                @:停用   
+	    }
+    }
+    else
+    {
+        @:未設定
+    }        
+}
+
+
