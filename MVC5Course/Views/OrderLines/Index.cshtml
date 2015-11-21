@@ -16,8 +16,7 @@
     FormMethod.Get))
 {
     @:OrderStatus:
-    @Html.DropDownList("OrderStatus","請選擇")
-    <input type="submit" value="搜尋" />
+    @Html.DropDownList("OrderStatus",null, "請選擇", new { onchange = "this.form.submit();" })
 }
 <table class="table">
     <tr>
