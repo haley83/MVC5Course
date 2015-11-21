@@ -1,3 +1,9 @@
 ﻿@helper BlockHtml() {
 <p>Use this area to provide additional information.</p>
 }
+
+@functions{
+    static public IHtmlString GetDate(){
+        return new HtmlString(DateTime.Now.ToString());
+    }
+}
