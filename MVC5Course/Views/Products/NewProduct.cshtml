@@ -42,6 +42,8 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("link test", "Index", null, new { @class = "btn", data_test = "123" })
+    <a class="btn" data-test="123" href="@Url.Action("Index")">link test2</a>
 </div>
 
 @section Scripts {
