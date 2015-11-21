@@ -96,7 +96,7 @@ namespace MVC5Course.Controllers
         [ChildActionOnly]
         public ActionResult OrderLines(int? id)
         {
-            return View(repo.GetById(id).OrderLine);
+            return PartialView(repo.GetById(id).OrderLine);
         }
 
         // GET: Products/Create

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MVC5Course.Models.OrderLine>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>OrderLine</h2>
+@*@using (Html.BeginForm(
+     ViewContext.RouteData.Values["action"].ToString(),
+     ViewContext.RouteData.Values["controller"].ToString(),
+     FormMethod.Get))*@
+@using (Html.BeginForm(
+    "Details",
+    "Products", 
+    new {id=ViewContext.RouteData.Values["id"].ToString()},
+    FormMethod.Get))
+{
+    @:OrderStatus:
+    @Html.DropDownList("OrderStatus","請選擇")
+    <input type="submit" value="搜尋" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LineTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Order.OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ProductName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LineTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Order.OrderStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.ProductName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
