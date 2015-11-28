@@ -2,6 +2,11 @@
 
 @{
     ViewBag.Title = "Index";
+
+    if (IsAjax)
+    {
+        Layout = "";
+    }
 }
 
 <h2>OrderLine</h2>
@@ -9,7 +14,7 @@
      ViewContext.RouteData.Values["action"].ToString(),
      ViewContext.RouteData.Values["controller"].ToString(),
      FormMethod.Get))*@
-@using (Html.BeginForm(
+@*@using (Html.BeginForm(
     "Details",
     "Products", 
     new {id=ViewContext.RouteData.Values["id"].ToString()},
@@ -17,6 +22,17 @@
 {
     @:OrderStatus:
     @Html.DropDownList("OrderStatus",null, "請選擇", new { onchange = "this.form.submit();" })
+}*@
+@using (Ajax.BeginForm(
+    "Index",
+    "OrderLines",
+    new { productId = ViewBag.productId },
+    new AjaxOptions { UpdateTargetId = "details" }))
+{
+    @:OrderStatus:
+    @Html.DropDownList("OrderStatus", null, "請選擇"
+@*, new { onchange = "this.form.submit();" }*@
+    ,new { onchange = "$(this.form).trigger('submit');" })
 }
 <table class="table">
     <tr>

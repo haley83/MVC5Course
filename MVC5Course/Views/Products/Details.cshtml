@@ -16,7 +16,9 @@
 @*@Html.Partial("OrderLines",Model.OrderLine)*@
 @*@Html.Action("OrderLines", new { id = Model.ProductId })*@
 
-@Html.Action("Index", "OrderLines", new { ProductId = Model.ProductId })
+<div id="details">
+    @Html.Action("Index", "OrderLines", new { ProductId = Model.ProductId })
+</div>
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }) |

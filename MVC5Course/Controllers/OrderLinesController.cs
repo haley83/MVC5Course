@@ -14,10 +14,12 @@ namespace MVC5Course.Controllers
     {
         private FabricsEntities db = new FabricsEntities();
 
-        [ChildActionOnly]
+        //[ChildActionOnly]
         // GET: OrderLines
         public ActionResult Index(int productId, string OrderStatus)
         {
+            ViewBag.productId = productId;
+
             var lsOrderStatus = from row in db.OrderLine
                                 where row.ProductId == productId
                                 group row by row.Order.OrderStatus into g
