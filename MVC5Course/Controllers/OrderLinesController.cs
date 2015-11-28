@@ -32,7 +32,7 @@ namespace MVC5Course.Controllers
             //var orderLine = db.OrderLine.Include(o => o.Order).Include(o => o.Product);
             var orderLine = db.OrderLine.Where(p => p.ProductId == productId &&
                                                (!string.IsNullOrEmpty(OrderStatus) ? p.Order.OrderStatus == OrderStatus : true));
-            return PartialView(orderLine.ToList());
+            return PartialView("Index", orderLine.ToList());
         }
 
         // GET: OrderLines/Details/5
@@ -137,20 +137,21 @@ namespace MVC5Course.Controllers
             db.SaveChanges();
             //return RedirectToAction("Index");
 
-            var productId = ol.ProductId;
-            ViewBag.productId = productId;
+            //var productId = ol.ProductId;
+            //ViewBag.productId = productId;
 
-            var lsOrderStatus = from row in db.OrderLine
-                                where row.ProductId == productId
-                                group row by row.Order.OrderStatus into g
-                                select g.Key;
+            //var lsOrderStatus = from row in db.OrderLine
+            //                    where row.ProductId == productId
+            //                    group row by row.Order.OrderStatus into g
+            //                    select g.Key;
 
-            ViewBag.OrderStatus = new SelectList(lsOrderStatus);
+            //ViewBag.OrderStatus = new SelectList(lsOrderStatus);
 
-            //var orderLine = db.OrderLine.Include(o => o.Order).Include(o => o.Product);
-            var orderLine = db.OrderLine.Where(p => p.ProductId == productId &&
-                                               (!string.IsNullOrEmpty(OrderStatus) ? p.Order.OrderStatus == OrderStatus : true));
-            return PartialView("Index", orderLine.ToList());
+            ////var orderLine = db.OrderLine.Include(o => o.Order).Include(o => o.Product);
+            //var orderLine = db.OrderLine.Where(p => p.ProductId == productId &&
+            //                                   (!string.IsNullOrEmpty(OrderStatus) ? p.Order.OrderStatus == OrderStatus : true));
+            //return PartialView("Index", orderLine.ToList());
+            return Index(ol.ProductId, OrderStatus);
 
         }
 
