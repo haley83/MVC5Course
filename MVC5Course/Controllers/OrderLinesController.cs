@@ -18,6 +18,8 @@ namespace MVC5Course.Controllers
         // GET: OrderLines
         public ActionResult Index(int productId, string OrderStatus)
         {
+            ViewBag.OrderStatusSelected = OrderStatus;
+
             ViewBag.productId = productId;
 
             var lsOrderStatus = from row in db.OrderLine
@@ -110,30 +112,46 @@ namespace MVC5Course.Controllers
             return View(orderLine);
         }
 
-        // GET: OrderLines/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            OrderLine orderLine = db.OrderLine.Find(id);
-            if (orderLine == null)
-            {
-                return HttpNotFound();
-            }
-            return View(orderLine);
-        }
+        //// GET: OrderLines/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    OrderLine orderLine = db.OrderLine.Find(id);
+        //    if (orderLine == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(orderLine);
+        //}
 
         // POST: OrderLines/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int OrderId, int LineNumber, string OrderStatus)
         {
-            OrderLine orderLine = db.OrderLine.Find(id);
-            db.OrderLine.Remove(orderLine);
+            OrderLine ol = db.OrderLine.Find(OrderId, LineNumber);
+            db.OrderLine.Remove(ol);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+
+            var productId = ol.ProductId;
+            ViewBag.productId = productId;
+
+            var lsOrderStatus = from row in db.OrderLine
+                                where row.ProductId == productId
+                                group row by row.Order.OrderStatus into g
+                                select g.Key;
+
+            ViewBag.OrderStatus = new SelectList(lsOrderStatus);
+
+            //var orderLine = db.OrderLine.Include(o => o.Order).Include(o => o.Product);
+            var orderLine = db.OrderLine.Where(p => p.ProductId == productId &&
+                                               (!string.IsNullOrEmpty(OrderStatus) ? p.Order.OrderStatus == OrderStatus : true));
+            return PartialView("Index", orderLine.ToList());
+
         }
 
         protected override void Dispose(bool disposing)
