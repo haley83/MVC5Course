@@ -4,6 +4,11 @@
 
 @{
     ViewBag.Title = "Index";
+
+    if (IsAjax)
+    {
+        Layout = "";
+    }
 }
 
 <h2>Index</h2>
@@ -11,46 +16,48 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stock)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
-        </td>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
+                </td>
+            </tr>
 }
 
-</table>
+    </table>
 
-@Html.PagedListPager(list: Model as IPagedList<Product>
-                     , generatePageUrl: P => Url.Action("Index", new { pageNumber = P }))
+    @Html.PagedListPager(list: Model as IPagedList<Product>
+                         , generatePageUrl: P => Url.Action("Index", new { pageNumber = P })
+                         , options: PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing("#Main"))
